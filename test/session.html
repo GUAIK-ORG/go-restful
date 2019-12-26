@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>session test</title>
+</head>
+
+<body>
+    E-mail: <input type="email" name="email" id="email">
+    Passwd: <input type="password" name="passwd" id="passwd">
+    <button type="button" onclick="login()">Login</button><br /><br />
+    Result:<br />
+    <textarea id="result" style="width: 500px;" rows="5"></textarea>
+</body>
+
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+    function login() {
+        // 模拟登陆
+        let body = JSON.stringify({
+            'email': $("#email").val(),
+            'passwd': $("#passwd").val()
+        });
+        $.ajax({
+            url: "http://localhost:8080/session", //发送的路径
+            data: body, //发送的数据
+            type: "post", //发送的方式
+            dataType: "json", //服务器返回的数据类型
+            success: function (data) {
+                $("#result").text(JSON.stringify(data));
+            }
+        });
+    }
+</script>
+
+</html>
