@@ -1,16 +1,10 @@
-# GO-Restful框架
-
----
+# 🚀GO-Restful框架
 
 ## 快速开始
-
----
 
 ### 安装
 
 `git clone https://github.com/GUAIK-ORG/go-restful.git`
-
----
 
 ### 运行
 
@@ -20,11 +14,7 @@
 
 `./test/session.html`提供了一个js的登陆测试用例，请双击运行。测试用的邮箱和密码为：`email:demo@guaik.org passwd:hello!`
 
----
-
 ## 框架介绍
-
----
 
 框架代码在`pkg/restful`目录下
 
@@ -46,10 +36,8 @@ resp.Success(map[string]interface{} {
 客户端接收到的数据为：
 
 ```json
-{"status":0,"error_code":0,"error_msg":null,"body":{"token":"xxxxxxxx","uid":"10001"}}
+{"status": 0, "error_code": 0, "error_msg": null, "body": {"token": "xxxxxxxx", "uid": "10001"}}
 ```
-
----
 
 框架提供了多语言的错误信息，可通过配置的形式注册错误信息：
 
@@ -69,11 +57,7 @@ restful.HandlerOpts{
 {"status": -1, "error_code": 1000, "error_msg": {"cn": "邮箱或密码错误", "en": "email or passwd error"}, "body": null}
 ```
 
----
-
 框架可自定义请求解析器，默认提供了json格式解析在`./parser/json-parser.go`中。
-
----
 
 框架支持过滤器队列，对请求数据进行预处理，在目录`./filters`目录下默认提供了两个过滤器。
 
