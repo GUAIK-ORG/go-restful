@@ -6,6 +6,12 @@
 
 ---
 
+### 安装
+
+`git clone https://github.com/GUAIK-ORG/go-restful.git`
+
+---
+
 ### 运行
 
 `go run main.go -log_dir=log -alsologtostderr`
@@ -13,6 +19,8 @@
 ### 测试
 
 `./test/session.html`提供了一个js的登陆测试用例，请双击运行。测试用的邮箱和密码为：`email:demo@guaik.org passwd:hello!`
+
+---
 
 ## 框架介绍
 
