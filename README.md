@@ -29,9 +29,9 @@ go-restful标准化了Restful接口开发，提供了`post delete put get`四种
 在handler中设置成功状态：
 
 ```go
-resp.Success(map[string]interface{}{
-	"uid":   uid,
-	"token": token,
+resp.Success(map[string]interface{} {
+    "uid":   uid,
+    "token": token,
 })
 ```
 
@@ -47,17 +47,18 @@ resp.Success(map[string]interface{}{
 
 ```go
 restful.HandlerOpts{
-	// 配置接口错误信息
-	MakeErrorFunc: func(err *restful.Errors){
-		err.NewError(1000, "email or passwd error")
-		err.Translate(1000, "cn", "邮箱或密码错误") // 中文翻译
+    // 配置接口错误信息
+    MakeErrorFunc: func(err *restful.Errors){
+        err.NewError(1000, "email or passwd error")
+        err.Translate(1000, "cn", "邮箱或密码错误") // 中文翻译
     },
 },
 ```
 
 客户端接收到的数据为：
+
 ```json
-{"status":-1,"error_code":1000,"error_msg":{"cn":"邮箱或密码错误","en":"email or passwd error"},"body":null}
+{"status": -1, "error_code": 1000, "error_msg": {"cn": "邮箱或密码错误", "en": "email or passwd error"}, "body": null}
 ```
 
 ---
@@ -73,21 +74,22 @@ check.go : 负责参数格式校验，支持string，float64，int64，bool，[]
 token.go : 用来校验访问令牌信息。（需结合缓存和数据库进行修改）。
 
 将过滤器用于处理者：只要有任何一个过滤器`error != nil`，之后的过滤器将不会被执行，请求将被丢弃。
+
 ```go
 restful.HandlerOpts{
-	Filters: []restful.Filter{
-		// 1、该接口需要验证token，如果token无效将不被执行
+    Filters: []restful.Filter{
+        // 1、该接口需要验证token，如果token无效将不被执行
         &filter.CheckToken{},
         // 2、校验参数
         &filter.CheckParams{
-				// 参数检查
-			Params: map[string]interface{}{
-				// 正则校验
-				"email": filter.FieldRegexp(`^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$`),
-					// 6～12长度字符串校验
-				"passwd": filter.FieldString().SetLength(6, 12),
-			},
-		},
-	},
+            // 参数检查
+            Params: map[string]interface{}{
+                // 正则校验
+                "email": filter.FieldRegexp(`^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$`),
+                // 6～12长度字符串校验
+                "passwd": filter.FieldString().SetLength(6, 12),
+            },
+        },
+    },
 },
 ```
