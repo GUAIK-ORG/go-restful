@@ -16,6 +16,8 @@
 
 ## 框架介绍
 
+![arch](https://github.com/GUAIK-ORG/go-restful/tree/master/doc/arch.png)
+
 框架代码在`pkg/restful`目录下
 
 go-restful标准化了Restful接口开发，提供了`post delete put get`四种操作方式。
