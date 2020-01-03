@@ -37,13 +37,13 @@ ab测试指令：`ab -n 10000 -c 100 -p "./abtest.txt" -T "application/json" -H 
 
 测试结果：
 
-![ab-load](https://gitee.com/GuaikOrg/go-restful/raw/master/doc/ab-load.png)
+![ab-load](https://gitee.com/GuaikOrg/go-restful/raw/master/docs/ab-load.png)
 
 ---
 
 ## 框架介绍
 
-![arch](https://gitee.com/GuaikOrg/go-restful/raw/master/doc/arch.png)
+![arch](https://gitee.com/GuaikOrg/go-restful/raw/master/docs/arch.png)
 
 框架代码在`pkg/restful`目录下
 
