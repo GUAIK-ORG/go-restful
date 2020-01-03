@@ -156,7 +156,7 @@ func (c *CheckParams) checkFunc(one interface{}, two interface{}) bool {
 			// 字符串长度检查
 			if str, ok := one.(string); ok {
 				len := utf8.RuneCountInString(str)
-				glog.Info("check string length: min:", t2.MinLen, " max:", t2.MaxLen, " ->", len)
+				// glog.Info("check string length: min:", t2.MinLen, " max:", t2.MaxLen, " ->", len)
 				if t2.MinLen != -1 && len < t2.MinLen {
 					glog.Error("filter@check min len error")
 					return false

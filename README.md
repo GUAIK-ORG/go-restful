@@ -14,6 +14,33 @@
 
 `./test/session.html`提供了一个js的登陆测试用例，请双击运行。测试用的邮箱和密码为：`email:demo@guaik.org passwd:hello!`
 
+### 负载测试
+
+新建文件：abtest.txt，内容如下:
+
+```json
+{
+ "email": "demo@guaik.org",
+ "passwd": "hello!"
+}
+```
+
+ab测试指令：`ab -n 10000 -c 100 -p "./abtest.txt" -T "application/json" -H "Content-Type: application/json" http://localhost:8080/session`
+
+本机测试：（有条件的可用服务器测试）
+
+| 参数 | 配置 |
+|---|---|
+| OS | MacBook Pro (13-inch, Late 2016, Four Thunderbolt 3 Ports)|
+| CPU | 2.9 GHz 双核Intel Core i5 |
+| RAM | 8 GB 2133 MHz LPDDR3 |
+
+测试结果：
+
+![ab-load](https://gitee.com/GuaikOrg/go-restful/raw/master/doc/ab-load.png)
+
+---
+
 ## 框架介绍
 
 ![arch](https://gitee.com/GuaikOrg/go-restful/raw/master/doc/arch.png)
