@@ -16,7 +16,7 @@
 
 ## 框架介绍
 
-![arch](https://github.com/GUAIK-ORG/go-restful/blob/master/doc/arch.png?raw=true)
+![arch](https://gitee.com/GuaikOrg/go-restful/raw/master/doc/arch.png)
 
 框架代码在`pkg/restful`目录下
 
