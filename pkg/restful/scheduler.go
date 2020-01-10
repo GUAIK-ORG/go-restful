@@ -11,10 +11,11 @@ type SchedulerOpt struct {
 
 type Scheduler struct {
 	// 处理函数
-	PostHandler   HttpHandler
-	GetHandler    HttpHandler
-	PutHandler    HttpHandler
-	DeleteHandler HttpHandler
+	PostHandler   HttpHandler // 创建
+	GetHandler    HttpHandler // 获取
+	PutHandler    HttpHandler // 更新（全部更新）
+	PatchHandler  HttpHandler // 更新（部分更新）
+	DeleteHandler HttpHandler // 删除
 	// 配置
 	opt *SchedulerOpt
 }
@@ -45,5 +46,8 @@ func (s *Scheduler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 	if r.Method == "DELETE" && s.DeleteHandler != nil {
 		s.DeleteHandler(w, r)
+	}
+	if r.Method == "PATCH" && s.PatchHandler != nil {
+		s.PatchHandler(w, r)
 	}
 }

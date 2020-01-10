@@ -58,6 +58,13 @@ func (rf *Restful) Put(path string, handler HttpHandler) {
 
 }
 
+func (rf *Restful) Patch(path string, handler HttpHandler) {
+	rf.Scheduler(path, nil)
+	if rf.router[path].PatchHandler == nil {
+		rf.router[path].PatchHandler = handler
+	}
+}
+
 func (rf *Restful) Delete(path string, handler HttpHandler) {
 	rf.Scheduler(path, nil)
 	if rf.router[path].DeleteHandler == nil {

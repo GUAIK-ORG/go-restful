@@ -28,9 +28,9 @@ func NewHandler(handler RestHandler, opt HandlerOpts) func(http.ResponseWriter, 
 		}
 		defer r.Body.Close()
 		body, err = ioutil.ReadAll(r.Body)
-		// if len(body) > 0 {
-		// 	glog.Info(string(body))
-		// }
+		if len(body) > 0 {
+			glog.Info(string(body))
+		}
 		if err != nil {
 			glog.Error(err)
 			resp.Error(0, err.Error()).Write(w)
