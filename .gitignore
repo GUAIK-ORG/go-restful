@@ -1,2 +1,7 @@
 /log
 .DS_Store
+.idea/.gitignore
+.idea/go-restful.iml
+.idea/misc.xml
+.idea/modules.xml
+.idea/vcs.xml

@@ -23,5 +23,6 @@ func JsonParser(urlParams map[string][]string, data []byte) (params map[string]i
 	} else {
 		err = errors.New("Parser: body empty")
 	}
+	//glog.Infof("Request >> %v", params)
 	return
 }

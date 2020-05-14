@@ -1,7 +1,7 @@
 package filter
 
 import (
-	"errors"
+	"fmt"
 	"net/http"
 	"reflect"
 	"regexp"
@@ -36,6 +36,10 @@ func FieldString() *CkField {
 
 func FieldInt() *CkField {
 	return &CkField{T: "int", MinLen: -1, MaxLen: -1, Sparse: false}
+}
+
+func FieldInt64() *CkField {
+	return &CkField{T: "int64", MinLen: -1, MaxLen: -1, Sparse: false}
 }
 
 func FieldFloat64() *CkField {
@@ -75,7 +79,7 @@ type CheckParams struct {
 // 字典检查
 func (c *CheckParams) checkFunc(one interface{}, two interface{}) bool {
 	if one == nil || two == nil {
-		glog.Error("filter@check faild == nil")
+		glog.Error("filter@one or two == nil")
 		return false
 	}
 	if t2, ok := two.(map[string]interface{}); ok {
@@ -88,6 +92,7 @@ func (c *CheckParams) checkFunc(one interface{}, two interface{}) bool {
 					if t, ok := v.(*CkField); ok && t.Sparse {
 						continue
 					}
+					glog.Errorf("filter@key %s not exist", k)
 					return false
 				}
 				if !c.checkFunc(t1[k], v) {
@@ -156,7 +161,7 @@ func (c *CheckParams) checkFunc(one interface{}, two interface{}) bool {
 			// 字符串长度检查
 			if str, ok := one.(string); ok {
 				len := utf8.RuneCountInString(str)
-				// glog.Info("check string length: min:", t2.MinLen, " max:", t2.MaxLen, " ->", len)
+				//glog.Info("check string length: min:", t2.MinLen, " max:", t2.MaxLen, " ->", len)
 				if t2.MinLen != -1 && len < t2.MinLen {
 					glog.Error("filter@check min len error")
 					return false
@@ -178,7 +183,7 @@ func (c *CheckParams) checkFunc(one interface{}, two interface{}) bool {
 func (c *CheckParams) Processor(r *http.Request, in map[string]interface{}) (out map[string]interface{}, err error) {
 	out = in
 	if !c.checkFunc(in, c.Params) {
-		err = errors.New("filter: params key not exist or type error")
+		err = fmt.Errorf("[ %s ] filter: missing parameter or type error", r.RequestURI)
 	}
 	return
 }

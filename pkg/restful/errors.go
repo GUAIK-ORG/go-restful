@@ -1,25 +1,47 @@
 package restful
 
-import "github.com/golang/glog"
+import (
+	"sync"
+
+	"github.com/golang/glog"
+)
 
 type Error struct {
-	Code int32
+	Code string
 	Msg  map[string]string // 支持多语言
 }
 
 type Errors struct {
-	errors   map[int32]Error
+	errors   map[string]Error
 	language string
 }
 
-func NewErrors() *Errors {
-	return &Errors{
-		errors:   make(map[int32]Error),
-		language: "en",
-	}
+type ErrorsBucket struct {
+	errorsMap []*Errors
 }
 
-func (e *Errors) NewError(code int32, msg string) {
+var errorBucketInsObj *ErrorsBucket
+var errorBucketOnce sync.Once
+
+func errorBucketIns() *ErrorsBucket {
+	errorBucketOnce.Do(func() {
+		errorBucketInsObj = &ErrorsBucket{
+			errorsMap: make([]*Errors, 0),
+		}
+	})
+	return errorBucketInsObj
+}
+
+func NewErrors() *Errors {
+	errors := &Errors{
+		errors:   make(map[string]Error),
+		language: "en",
+	}
+	errorBucketIns().errorsMap = append(errorBucketIns().errorsMap, errors)
+	return errors
+}
+
+func (e *Errors) NewError(code string, msg string) {
 	err := Error{
 		Code: code,
 		Msg: map[string]string{
@@ -30,7 +52,7 @@ func (e *Errors) NewError(code int32, msg string) {
 }
 
 // 创建翻译
-func (e *Errors) Translate(code int32, language string, msg string) {
+func (e *Errors) Translate(code string, language string, msg string) {
 	if _, ok := e.errors[code]; !ok {
 		glog.Error("Error@Translate : code not exist")
 		return
@@ -39,7 +61,7 @@ func (e *Errors) Translate(code int32, language string, msg string) {
 }
 
 // 获取错误消息
-func (e *Errors) ErrorMsg(code int32) map[string]string {
+func (e *Errors) ErrorMsg(code string) map[string]string {
 	if _, ok := e.errors[code]; !ok {
 		return nil
 	}

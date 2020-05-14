@@ -25,15 +25,15 @@ var CreateSessionHandler = restful.NewHandler(
 			})
 		} else {
 			// 使用已配置的错误信息
-			resp.UseError(1000)
+			resp.UseError("SESSION.10000")
 		}
 	},
 	// 接口配置
 	restful.HandlerOpts{
 		// 配置接口错误信息
 		MakeErrorFunc: func(err *restful.Errors) {
-			err.NewError(1000, "email or passwd error")
-			err.Translate(1000, "cn", "邮箱或密码错误") // 中文翻译
+			err.NewError("SESSION.10000", "email or passwd error")
+			err.Translate("SESSION.10000", "cn", "邮箱或密码错误") // 中文翻译
 		},
 		// 设置解析器
 		ParseFunc: parser.JsonParser,
@@ -58,7 +58,7 @@ var DeleteSessionHandler = restful.NewHandler(
 	func(w http.ResponseWriter, r *http.Request, params map[string]interface{}, resp *restful.Response) {
 		_, err := r.Cookie("uid")
 		if err != nil {
-			resp.UseError(1001)
+			resp.UseError("SESSION.10001")
 		} else {
 			resp.Success(nil)
 		}
@@ -67,8 +67,8 @@ var DeleteSessionHandler = restful.NewHandler(
 	restful.HandlerOpts{
 		// 配置接口错误信息
 		MakeErrorFunc: func(err *restful.Errors) {
-			err.NewError(1001, "delete session error")
-			err.Translate(1001, "cn", "删除会话失败")
+			err.NewError("SESSION.10001", "delete session error")
+			err.Translate("SESSION.10001", "cn", "删除会话失败")
 		},
 		Filters: []restful.Filter{
 			// 该接口需要验证token，如果token无效将不被执行

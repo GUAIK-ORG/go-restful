@@ -7,17 +7,17 @@ import (
 )
 
 type Response struct {
-	Status    int32                  `json:"status"`     // 0: 成功 -1: 失败
-	ErrorCode int32                  `json:"error_code"` // 错误码
-	ErrorMsg  map[string]string      `json:"error_msg"`  // 错误信息
-	Body      map[string]interface{} `json:"body"`       // 返回数据
-	errMgr    *Errors                // 错误管理器
-	isWrite   bool                   // 是否向客户端写入应答数据
+	Status    int32             `json:"status"`     // 0: 成功 -1: 失败
+	ErrorCode string            `json:"error_code"` // 错误码
+	ErrorMsg  map[string]string `json:"error_msg"`  // 错误信息
+	Body      interface{}       `json:"body"`       // 返回数据
+	errMgr    *Errors           // 错误管理器
+	isWrite   bool              // 是否向客户端写入应答数据
 }
 
-func (r *Response) Success(body map[string]interface{}) *Response {
+func (r *Response) Success(body interface{}) *Response {
 	r.Status = 0
-	r.ErrorCode = 0
+	r.ErrorCode = ""
 	r.ErrorMsg = nil
 	r.Body = body
 	return r
@@ -29,14 +29,14 @@ func (r *Response) UseWrite(b bool) {
 	r.isWrite = b
 }
 
-func (r *Response) Error(errCode int32, errMsg string) *Response {
+func (r *Response) Error(errCode string, errMsg string) *Response {
 	r.Status = -1
 	r.ErrorCode = errCode
 	r.ErrorMsg = map[string]string{"en": errMsg}
 	return r
 }
 
-func (r *Response) UseError(errCode int32) *Response {
+func (r *Response) UseError(errCode string) *Response {
 	r.Status = -1
 	r.ErrorCode = errCode
 	r.ErrorMsg = r.errMgr.ErrorMsg(errCode)

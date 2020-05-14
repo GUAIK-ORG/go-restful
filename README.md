@@ -74,8 +74,8 @@ resp.Success(map[string]interface{} {
 restful.HandlerOpts{
     // 配置接口错误信息
     MakeErrorFunc: func(err *restful.Errors){
-        err.NewError(1000, "email or passwd error")
-        err.Translate(1000, "cn", "邮箱或密码错误") // 中文翻译
+        err.NewError("SESSION.10000", "email or passwd error")
+        err.Translate("SESSION.10000", "cn", "邮箱或密码错误") // 中文翻译
     },
 },
 ```
@@ -83,7 +83,7 @@ restful.HandlerOpts{
 客户端接收到的数据为：
 
 ```json
-{"status": -1, "error_code": 1000, "error_msg": {"cn": "邮箱或密码错误", "en": "email or passwd error"}, "body": null}
+{"status": -1, "error_code": ""SESSION.10000"", "error_msg": {"cn": "邮箱或密码错误", "en": "email or passwd error"}, "body": null}
 ```
 
 框架可自定义请求解析器，默认提供了json格式解析在`./parser/json-parser.go`中。
